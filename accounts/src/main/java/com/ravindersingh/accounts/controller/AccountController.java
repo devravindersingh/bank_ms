@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
-@AllArgsConstructor
 @Validated
 @Tag(
         name = "CRUD REST API's for Accounts in Easybank",
@@ -27,7 +27,14 @@ import org.springframework.web.bind.annotation.*;
 )
 public class AccountController {
 
-    private IAccountService accountService;
+    private final IAccountService accountService;
+
+    public AccountController(IAccountService accountService) {
+        this.accountService = accountService;
+    }
+
+    @Value("${build.version}")
+    private String buildVersion;
 
     @PostMapping(path = "/create")
     @Operation(
@@ -138,6 +145,27 @@ public class AccountController {
                 .status(HttpStatus.OK)
                 .body(new ResponseDto(AccountConstant.STATUS_200, String.format("Delete Request processed %s", result)));
 
+    }
+
+    @GetMapping("/build-info")
+    @Operation(
+            summary = "Get build information",
+            description = "Get build information that is deployed into accounts microservice",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
+                    @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR",
+                            content = @Content(
+                                    schema = @Schema(
+                                            implementation = ErrorReponseDto.class
+                                    )
+                            )
+                    )
+            }
+    )
+    public ResponseEntity<String> getBuildInfo(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(buildVersion);
     }
 
 
