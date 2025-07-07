@@ -32,6 +32,7 @@ public class AccountController {
 
     private final IAccountService accountService;
     private final Environment env;
+    private final AccountContactInfoDto accountContactInfoDto;
 
     @Value("${build.version}")
     private String buildVersion;
@@ -189,5 +190,25 @@ public class AccountController {
                 .body(env.getProperty("java.version"));
     }
 
+    @GetMapping("/contact-info")
+    @Operation(
+            summary = "Get contact information",
+            description = "Get contact information that is deployed into accounts microservice",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
+                    @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR",
+                            content = @Content(
+                                    schema = @Schema(
+                                            implementation = ErrorReponseDto.class
+                                    )
+                            )
+                    )
+            }
+    )
+    public ResponseEntity<AccountContactInfoDto> getContactInfo(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountContactInfoDto);
+    }
 
 }
