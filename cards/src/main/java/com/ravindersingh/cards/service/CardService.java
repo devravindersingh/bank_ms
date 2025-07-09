@@ -7,10 +7,7 @@ import com.ravindersingh.cards.exception.CardAlreadyExistsException;
 import com.ravindersingh.cards.exception.ResourceNotFoundException;
 import com.ravindersingh.cards.mapper.CardMapper;
 import com.ravindersingh.cards.repository.CardRepository;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

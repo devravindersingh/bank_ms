@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -61,7 +60,7 @@ public class AccountController {
                     @ApiResponse(responseCode = "404", description = "HTTP Status NOT_FOUND",
                         content = @Content(
                                 schema = @Schema(
-                                        implementation = ErrorReponseDto.class
+                                        implementation = ErrorResponseDto.class
                                 )
                         )
                     )
@@ -85,7 +84,7 @@ public class AccountController {
                     @ApiResponse(responseCode = "404", description = "HTTP Status NOT_FOUND",
                             content = @Content(
                                     schema = @Schema(
-                                            implementation = ErrorReponseDto.class
+                                            implementation = ErrorResponseDto.class
                                     )
                             )
                     )
@@ -110,7 +109,7 @@ public class AccountController {
                     @ApiResponse(responseCode = "404", description = "HTTP Status NOT_FOUND",
                             content = @Content(
                                     schema = @Schema(
-                                            implementation = ErrorReponseDto.class
+                                            implementation = ErrorResponseDto.class
                                     )
                             )
                     )            }
@@ -133,7 +132,7 @@ public class AccountController {
                     @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER",
                             content = @Content(
                                     schema = @Schema(
-                                            implementation = ErrorReponseDto.class
+                                            implementation = ErrorResponseDto.class
                                     )
                             )
                     )            }
@@ -151,13 +150,13 @@ public class AccountController {
     @GetMapping("/build-info")
     @Operation(
             summary = "Get build information",
-            description = "Get build information that is deployed into accounts microservice",
+            description = "Get build information that is deployed into cards microservice",
             responses = {
                     @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
                     @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR",
                             content = @Content(
                                     schema = @Schema(
-                                            implementation = ErrorReponseDto.class
+                                            implementation = ErrorResponseDto.class
                                     )
                             )
                     )
@@ -172,13 +171,13 @@ public class AccountController {
     @GetMapping("/java-version")
     @Operation(
             summary = "Get Java information",
-            description = "Get Java information that is deployed into accounts microservice",
+            description = "Get Java information that is deployed into cards microservice",
             responses = {
                     @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
                     @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR",
                             content = @Content(
                                     schema = @Schema(
-                                            implementation = ErrorReponseDto.class
+                                            implementation = ErrorResponseDto.class
                                     )
                             )
                     )
@@ -199,7 +198,7 @@ public class AccountController {
                     @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR",
                             content = @Content(
                                     schema = @Schema(
-                                            implementation = ErrorReponseDto.class
+                                            implementation = ErrorResponseDto.class
                                     )
                             )
                     )

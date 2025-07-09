@@ -1,6 +1,6 @@
 package com.ravindersingh.accounts.exception;
 
-import com.ravindersingh.accounts.dto.ErrorReponseDto;
+import com.ravindersingh.accounts.dto.ErrorResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -31,42 +31,42 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorReponseDto> handleInternalServerExceptions(Exception ex, WebRequest request) {
+    public ResponseEntity<ErrorResponseDto> handleInternalServerExceptions(Exception ex, WebRequest request) {
         logger.info("Inside handleException");
-        ErrorReponseDto errorReponseDto = new ErrorReponseDto(
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(
                 webRequest.getDescription(false),
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 ex.getMessage(),
                 LocalDateTime.now());
-        return new ResponseEntity<>(errorReponseDto, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(CustomerAlreadyExistsException.class)
-    public ResponseEntity<ErrorReponseDto> handleCustomerAlreadyExistsException(
+    public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistsException(
             CustomerAlreadyExistsException exception,
             WebRequest webRequest){
         logger.info("Inside handleCustomerAlreadyExistsException");
-        ErrorReponseDto errorReponseDto = new ErrorReponseDto(
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(
                 webRequest.getDescription(false),
                 HttpStatus.BAD_REQUEST,
                 exception.getMessage(),
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(errorReponseDto, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorReponseDto> handleAccountNotFoundException(
+    public ResponseEntity<ErrorResponseDto> handleAccountNotFoundException(
             ResourceNotFoundException exception,
             WebRequest webRequest) {
         logger.info("Inside handleAccountNotFoundException");
-        ErrorReponseDto errorReponseDto = new ErrorReponseDto(
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(
                 webRequest.getDescription(false),
                 HttpStatus.NOT_FOUND,
                 exception.getMessage(),
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(errorReponseDto, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.NOT_FOUND);
     }
 
     @Override
