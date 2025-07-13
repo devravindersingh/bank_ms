@@ -16,6 +16,11 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  config:
+    import: "configserver:http://localhost:8071/" #newer way to address
+  cloud:
+    config:
+      label: bank_ms # folder under which config files are
 
 build:
   version: "1.0"
