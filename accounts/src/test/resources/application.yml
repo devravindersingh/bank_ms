@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+#  config:
+#    import: "optional:configserver:http://localhost:8071/" #newer way to address
+
+build:
+  version: "1.0-test"
+
