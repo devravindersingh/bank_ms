@@ -18,7 +18,8 @@ spring:
     import: "configserver:http://localhost:8071/" #newer way to address
   cloud:
     config:
-      label: bank_ms # folder under which config files are
+#      label: bank_ms # folder under which config files are
+      label: master # mention git branch
 server:
   port: 8080
 
