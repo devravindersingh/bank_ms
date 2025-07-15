@@ -38,4 +38,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: "refresh" # to fetch latest config changes from configserver
+        include: "refresh, bus-refresh" # to fetch latest config changes from configserver
