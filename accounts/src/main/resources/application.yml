@@ -17,7 +17,7 @@ spring:
   config:
     import: "configserver:http://localhost:8071/" #newer way to address
   cloud:
-    config:
+    config: # optional if default label already mentioned in cs
 #      label: bank_ms # folder under which config files are
       label: master # mention git branch
 server:
@@ -34,3 +34,8 @@ accounts:
   onCallSupport:
     - (555) 555-1234
     - (555) 523-1345
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "refresh" # to fetch latest config changes from configserver
