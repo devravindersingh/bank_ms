@@ -1,0 +1,92 @@
+services:
+  rabbit:
+    image: rabbitmq:4-management
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "check_port_connectivity" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - bank_ms
+  configserver:
+    image: "ravinderdock/configserver:0.0.1-SNAPSHOT"
+    container_name: accounts-ms
+    ports:
+      - "8071:8071"
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - bank_ms
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http:// localhost:8071/health/readiness | grep UP"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+  accounts:
+    image: "ravinderdock/accounts:0.0.1-SNAPSHOT"
+    container_name: accounts-ms
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - bank_ms
+    environment:
+      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/"
+      SPRING_PROFILES_ACTIVE: "default"
+      SPRING_APPLICATION_NAME: "accounts"
+    depends_on:
+      configserver:
+        condition: service_healthy
+  loans:
+    image: "ravinderdock/loans:0.0.1-SNAPSHOT"
+    container_name: loans-ms
+    ports:
+      - "8090:8090"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - bank_ms
+    environment:
+      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/"
+      SPRING_PROFILES_ACTIVE: "default"
+      SPRING_APPLICATION_NAME: "loans"
+    depends_on:
+      configserver:
+        condition: service_healthy
+  cards:
+    image: "ravinderdock/cards:0.0.1-SNAPSHOT"
+    container_name: cards-ms
+    ports:
+      - "9000:9000"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - bank_ms
+    environment:
+      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/"
+      SPRING_PROFILES_ACTIVE: "default"
+      SPRING_APPLICATION_NAME: "cards"
+    depends_on:
+      configserver:
+        condition: service_healthy
+networks:
+  bank_ms:
+    driver: bridge
